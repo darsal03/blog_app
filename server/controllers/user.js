@@ -57,7 +57,7 @@ const logout = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    const sql = `SELECT * FROM users WHERE user_id = ${req.session.userId}`;
+    const sql = `SELECT user_id,user_name FROM users WHERE user_id = ${req.session.userId}`;
     const [[user]] = await db.query(sql);
 
     if (user) res.status(200).json(user);
@@ -74,7 +74,11 @@ const updateUser = async (req, res, next) => {
     const sql = `UPDATE users SET user_name = "${username}" WHERE user_id = ${id}`;
     const updatedUser = await db.query(sql);
 
-    if (updatedUser) res.status(200).json({ msg: "update was successful" });
+    if (updatedUser) {
+      res.status(200).json({ msg: "update was successful" });
+    } else {
+      res.status(400).json({});
+    }
   } catch (error) {
     next(error);
   }
