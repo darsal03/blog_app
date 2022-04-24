@@ -56,17 +56,14 @@ const updateBlog = async (req, res, next) => {
 
     if (!title && text) {
       sql = `UPDATE blogs SET blog_text = "${text}" WHERE user_id = ${req.session.userId} AND blog_id = ${id}`;
-      console.log("only text was updated");
     }
 
     if (!text && title) {
       sql = `UPDATE blogs SET blog_title = "${title}" WHERE user_id = ${req.session.userId} AND blog_id = ${id}`;
-      console.log("only title was updated");
     }
 
     if (title && text) {
       sql = `UPDATE blogs SET  blog_title = "${title}",blog_text = "${text}"  WHERE user_id = ${req.session.userId} AND blog_id = ${id}`;
-      console.log("full update");
     }
 
     const [updatedBlog] = await db.query(sql);
