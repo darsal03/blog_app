@@ -1,14 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+const AllProviderWrapper = ({ children }: { children: JSX.Element }) => {
+  const queryClient = new QueryClient();
+  return (
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </BrowserRouter>
+  );
+};
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AllProviderWrapper>
+      <Routes>
+        <Route path="/" element={<App />}></Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AllProviderWrapper>
   </React.StrictMode>
 );
 
