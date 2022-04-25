@@ -9,7 +9,9 @@ const register = async (req, res, next) => {
     const [[user]] = await db.query(sql);
 
     if (user) {
-      res.status(500).json({ msg: `user ${username} already exists` });
+      res.status(400).json({ msg: `user ${username} already exists` });
+    } else if (foundUserPassword) {
+      res.status(400).json({ msg: "that password is taken" });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
       await db.query(
@@ -25,11 +27,13 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-
     const sql = `SELECT * FROM users WHERE user_name = "${username}"`;
     const [[user]] = await db.query(sql);
 
-    if (!user) res.status(404).json({ msg: "user doesn't exist" });
+    if (!user) {
+      res.status(404).json({ msg: "user is wrong" });
+      return;
+    }
 
     const passwordsEqual = await bcrypt.compare(password, user.user_password);
 
