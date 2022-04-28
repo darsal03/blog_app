@@ -1,12 +1,14 @@
-import React from 'react';
-
-
+import { Content } from "./components/logic/Content";
+import GlobalStyles from "./Global.styled";
 
 function App() {
   return (
-    <div className="App">
-    HELLO
-    </div>
+    <>
+      <GlobalStyles />
+      <div className="App">
+        <Content />
+      </div>
+    </>
   );
 }
 
