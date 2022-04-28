@@ -22,7 +22,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", isAuth, logout);
-router.get("/", isAuth, getUser);
+router.get("/account", isAuth, getUser);
 router.put("/:id", isAuth, updateUser);
 router.delete("/:id", isAuth, deleteUser);
 

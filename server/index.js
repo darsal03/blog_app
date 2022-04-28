@@ -1,15 +1,19 @@
 const express = require("express");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
+const cors = require("cors");
+
 require("dotenv").config();
+
 const app = express();
 const connection = require("./database");
 const { router } = require("./routes");
 
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const options = {
   host: "localhost",
